@@ -5,6 +5,7 @@ export default function Home() {
 	const [textValue, setTextValue] = useState();
 	const [charPointer, setCharPointer] = useState(0);
 	const [rightPointer, setRightPointer] = useState(0);
+	const [wrongFlag, setWrongFlag] = useState(false);
 
 	var randomProperty = function () {
 		var keys = Object.keys(textdata);
@@ -17,11 +18,11 @@ export default function Home() {
 
 	const onType = (e) => {
 		setCharPointer(e.target.value.length);
-		if (e.target.value.slice(-1) === data.slice('')[charPointer]) {
+		if (data.slice(0, charPointer + 1) === e.target.value) {
 			setRightPointer(e.target.value.length);
 		}
 		setTextValue(e.target.value);
-		console.log(data.slice('')[charPointer]);
+		console.log(data.slice(0, charPointer + 1), e.target.value);
 	};
 
 	return (
