@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import textdata from '../LocalData/data';
 export default function Home() {
-	const [data, setData] = useState('Hello');
+	const [data, setData] = useState('HelloHello');
 	const [charPointer, setCharPointer] = useState(0);
 	const [rightPointer, setRightPointer] = useState(0);
 	const [time, setTime] = useState(0);
 	const [start, setStart] = useState(false);
 	const [startText, setStartText] = useState(false);
+	const [Wpm, setWpm] = useState(0);
 
 	// var randomProperty = function () {
 	// 	var keys = Object.keys(textdata);
@@ -40,6 +41,7 @@ export default function Home() {
 		) {
 			setStartText(false);
 			setStart(false);
+			WPM();
 		}
 		setCharPointer(e.target.value.length);
 		if (data.slice(0, charPointer + 1) === e.target.value) {
@@ -55,6 +57,15 @@ export default function Home() {
 				setRightPointer(rightPointer - 1);
 			}
 		}
+	};
+	const WPM = () => {
+		var wpm = 0;
+		var sec = Math.floor((time / 1000) % 60);
+		var min = Math.floor((time / 60000) % 60);
+		var now = (min * 60 + sec) / 60;
+		wpm = data.length / 5;
+		wpm = wpm / now;
+		setWpm(wpm);
 	};
 	// console.log('CP: ' + charPointer, 'RP: ' + rightPointer);
 	// console.log(
@@ -105,8 +116,7 @@ export default function Home() {
 							className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 w-full"
 						/>
 					</div>
-					{/* <button onClick={() => setStart(true)}>Start</button>
-					<button onClick={() => setStart(false)}>Stop</button> */}
+					<div>{Wpm}</div>
 				</div>
 			</main>
 		</div>
