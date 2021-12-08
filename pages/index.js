@@ -9,6 +9,7 @@ export default function Home() {
 	const [startText, setStartText] = useState(false);
 	const [Wpm, setWpm] = useState(0);
 	const [step, setStep] = useState(0);
+	const [isFinish, setFinished] = useState(false);
 
 	var randomProperty = function () {
 		var keys = Object.keys(textdata);
@@ -44,13 +45,13 @@ export default function Home() {
 			setStart(false);
 			WPM();
 			setStep(3);
+			setFinished(true);
 		}
 		setCharPointer(e.target.value.length);
 		if (data.slice(0, charPointer + 1) === e.target.value) {
 			setRightPointer(e.target.value.length);
 		}
 	};
-
 	const onDelete = (e) => {
 		if (e.key === 'Backspace' && e.target.value.length !== 0) {
 			setCharPointer(e.target.value.length - 1);
@@ -89,7 +90,7 @@ export default function Home() {
 								Start
 							</button>
 						</>
-					) : step == 1 ? (
+					) : (
 						<>
 							{/* <div className="text-left text-2xl font-bold text-gray-400 font-inter"> */}
 							{/* <span>
@@ -119,55 +120,59 @@ export default function Home() {
 								})}
 							</span>
 
-							<div className="w-full ">
-								<input
-									placeholder="Go"
-									onChange={onType}
-									ref={(input) => input && input.focus()}
-									onKeyDown={onDelete}
-									className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 w-full"
-								/>
-							</div>
+							{!isFinish ? (
+								<div className="w-full ">
+									<input
+										placeholder="Go"
+										onChange={onType}
+										ref={(input) => input && input.focus()}
+										onKeyDown={onDelete}
+										className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 w-full"
+									/>
+								</div>
+							) : (
+								<div className="flex flex-col space-y-20">
+									<div className="flex flex-row space-x-20">
+										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
+											You'r WPM: {Wpm}
+										</span>
+										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
+											Time: {Math.floor((time / 60000) % 60)}:
+											{Math.floor((time / 1000) % 60)}
+										</span>
+									</div>
+									<div className="flex flex-row  mx-auto">
+										<button
+											className="block uppercase  shadow bg-red-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tl rounded-bl font-bold"
+											onClick={() => {
+												setTime(0);
+												setWpm(0);
+												setCharPointer(0);
+												setRightPointer(0);
+												setStep(1);
+												setFinished(false);
+											}}
+										>
+											Repeat
+										</button>
+										<button
+											className="block uppercase  shadow bg-green-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tr rounded-br font-bold"
+											onClick={() => {
+												setTime(0);
+												setWpm(0);
+												setCharPointer(0);
+												setRightPointer(0);
+												setStep(1);
+												setFinished(false);
+												setData('');
+											}}
+										>
+											New
+										</button>
+									</div>
+								</div>
+							)}
 						</>
-					) : (
-						<div className="flex flex-col space-y-20">
-							<div className="flex flex-row space-x-20">
-								<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-									You'r WPM: {Wpm}
-								</span>
-								<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-									Time: {Math.floor((time / 60000) % 60)}:
-									{Math.floor((time / 1000) % 60)}
-								</span>
-							</div>
-							<div className="flex flex-row  mx-auto">
-								<button
-									className="block uppercase  shadow bg-red-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tl rounded-bl font-bold"
-									onClick={() => {
-										setTime(0);
-										setWpm(0);
-										setCharPointer(0);
-										setRightPointer(0);
-										setStep(1);
-									}}
-								>
-									Play Again
-								</button>
-								<button
-									className="block uppercase  shadow bg-green-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tr rounded-br font-bold"
-									onClick={() => {
-										setTime(0);
-										setWpm(0);
-										setCharPointer(0);
-										setRightPointer(0);
-										setStep(1);
-										setData('');
-									}}
-								>
-									Play Again
-								</button>
-							</div>
-						</div>
 					)}
 				</div>
 			</main>
