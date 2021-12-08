@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import textdata from '../LocalData/data';
 export default function Home() {
-	const [data, setData] = useState('HelloHello');
+	const [data, setData] = useState('');
 	const [charPointer, setCharPointer] = useState(0);
 	const [rightPointer, setRightPointer] = useState(0);
 	const [time, setTime] = useState(0);
@@ -9,14 +9,14 @@ export default function Home() {
 	const [startText, setStartText] = useState(false);
 	const [Wpm, setWpm] = useState(0);
 
-	// var randomProperty = function () {
-	// 	var keys = Object.keys(textdata);
-	// 	setData(textdata[keys[(keys.length * Math.random()) << 0]]);
-	// };
+	var randomProperty = function () {
+		var keys = Object.keys(textdata);
+		setData(textdata[keys[(keys.length * Math.random()) << 0]]);
+	};
 
-	// useEffect(() => {
-	// 	// randomProperty(textdata);
-	// }, []);
+	useEffect(() => {
+		randomProperty(textdata);
+	}, []);
 	useEffect(() => {
 		let interval = null;
 
@@ -65,7 +65,7 @@ export default function Home() {
 		var now = (min * 60 + sec) / 60;
 		wpm = data.length / 5;
 		wpm = wpm / now;
-		setWpm(wpm);
+		setWpm(Math.round(wpm));
 	};
 	// console.log('CP: ' + charPointer, 'RP: ' + rightPointer);
 	// console.log(
