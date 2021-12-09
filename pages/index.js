@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import textdata from '../LocalData/data';
 export default function Home() {
 	// متغير لتخزين القطع النصيه
-	const [data, setData] = useState('Hello1 Hello2');
+	const [data, setData] = useState('');
 
 	// مؤشر عام لمتابعه عدد المدخلات ومقارنتها بالحرف المقابل في القطعه النصيه
 	const [charPointer, setCharPointer] = useState(0);
@@ -11,7 +11,7 @@ export default function Home() {
 	const [rightPointer, setRightPointer] = useState(0);
 
 	// مصفوفه لجمع الحروف الخاطئه
-	const [wrongPointer, setWrongPointer] = useState([]);
+	const [wrongChar, setWrongChar] = useState([]);
 
 	const [wordPointer, setWordPointer] = useState(0);
 	// متغير لتخزين الوقت
@@ -44,7 +44,7 @@ export default function Home() {
 
 	// يتم استدعاء الداله السابقه في كل مره يحدث تغير في المتغير داتا
 	useEffect(() => {
-		// randomProperty(textdata);
+		randomProperty(textdata);
 	}, [data]);
 
 	// مؤقت يعمل في كل مره تتغير قيمة ستارت الى ترو
@@ -95,21 +95,21 @@ export default function Home() {
 				setFinished(true);
 			}
 		} else if (e.nativeEvent.inputType !== 'deleteContentBackward') {
-			setWrongPointer([...wrongPointer, data[charPointer]]);
+			setWrongChar([...wrongChar, data[charPointer]]);
 		}
 		console.log('e.length: ' + e.target.value.length);
 	};
-	// console.log(data.split(' ')[wordPointer]);
-	console.log(
-		'totalEvent: ' + totalEvent,
-		'totalEventLength: ' + totalEvent.length,
-		'dataSlice: ' + data.slice(0, charPointer),
-		'dataRight: ' + data.slice(0, rightPointer),
-		'currentWord: ' + data.split(' ')[wordPointer],
-		'dataLenght: ' + data.slice(0, charPointer).length,
-		'RP: ' + rightPointer,
-		'CP: ' + charPointer
-	);
+	// console.log(
+	// 	'totalEvent: ' + totalEvent,
+	// 	'totalEventLength: ' + totalEvent.length,
+	// 	'dataSlice: ' + data.slice(0, charPointer),
+	// 	'dataRight: ' + data.slice(0, rightPointer),
+	// 	'currentWord: ' + data.split(' ')[wordPointer],
+	// 	'dataLenght: ' + data.slice(0, charPointer).length,
+	// 	'RP: ' + rightPointer,
+	// 	'CP: ' + charPointer
+	// );
+
 	// داله تسبقبل الحدث من الانبوت
 	const onDelete = (e) => {
 		// اذا كان الحدث هو زر المسح يتم التحقق ان الانبوت غير فاضي
@@ -121,6 +121,23 @@ export default function Home() {
 			if (charPointer == rightPointer) {
 				setRightPointer(rightPointer - 1);
 			}
+		}
+	};
+	const ResetText = (x) => {
+		console.log(x);
+		setCharPointer(0);
+		setRightPointer(0);
+		setWrongChar([]);
+		setTime(0);
+		setStart(false);
+		setStartText(false);
+		setWpm(0);
+		setWordPointer(0);
+		setInputValue('');
+		setTotalEvent('');
+		setFinished(false);
+		if (x === 'new') {
+			setData('');
 		}
 	};
 
@@ -204,14 +221,7 @@ export default function Home() {
 										<button
 											className="block uppercase  shadow bg-red-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tl rounded-bl font-bold"
 											onClick={() => {
-												setTime(0);
-												setWpm(0);
-												setCharPointer(0);
-												setRightPointer(0);
-												setStep(1);
-												wordPointer(0);
-												wrongPointer(0);
-												setFinished(false);
+												ResetText();
 											}}
 										>
 											Repeat
@@ -219,15 +229,7 @@ export default function Home() {
 										<button
 											className="block uppercase  shadow bg-green-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tr rounded-br font-bold"
 											onClick={() => {
-												setTime(0);
-												setWpm(0);
-												setCharPointer(0);
-												setRightPointer(0);
-												setStep(1);
-												wordPointer(0);
-												wrongPointer(0);
-												setFinished(false);
-												setData('');
+												ResetText('new');
 											}}
 										>
 											New
