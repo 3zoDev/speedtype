@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import textdata from '../LocalData/data';
 export default function Home() {
 	// متغير لتخزين القطع النصيه
-	const [data, setData] = useState(
-		'Be the change that you wish to see in the world.'
-	);
+	const [data, setData] = useState('');
 
 	// مؤشر عام لمتابعه عدد المدخلات ومقارنتها بالحرف المقابل في القطعه النصيه
 	const [charPointer, setCharPointer] = useState(0);
@@ -50,7 +48,7 @@ export default function Home() {
 
 	// يتم استدعاء الداله السابقه في كل مره يحدث تغير في المتغير داتا
 	useEffect(() => {
-		// randomProperty(textdata);
+		randomProperty(textdata);
 	}, [data]);
 
 	// مؤقت يعمل في كل مره تتغير قيمة ستارت الى ترو
@@ -143,6 +141,7 @@ export default function Home() {
 		setInputValue('');
 		setTotalEvent('');
 		setFinished(false);
+		setAccuracy(0);
 		if (x === 'new') {
 			setData('');
 		}
@@ -237,10 +236,10 @@ export default function Home() {
 								<div className="flex flex-col space-y-32 w-full justify-start items-center">
 									<div className="flex flex-row space-x-20">
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-											You'r WPM: {Wpm}
+											WPM: {Wpm}
 										</span>
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-											You'r Accuracy: %{accuracy}
+											Accuracy: %{accuracy}
 										</span>
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
 											Time: {Math.floor((time / 60000) % 60)}:
