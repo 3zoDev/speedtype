@@ -1,27 +1,55 @@
 import { useState, useEffect } from 'react';
 import textdata from '../LocalData/data';
 export default function Home() {
-	const [data, setData] = useState('');
+	// متغير لتخزين القطع النصيه
+	const [data, setData] = useState('Hello1 Hello2');
+
+	// مؤشر عام لمتابعه عدد المدخلات ومقارنتها بالحرف المقابل في القطعه النصيه
 	const [charPointer, setCharPointer] = useState(0);
+
+	// مؤشر لمتابعة الاحرف المدخله الصحيحه
 	const [rightPointer, setRightPointer] = useState(0);
+
+	// مصفوفه لجمع الحروف الخاطئه
+	const [wrongPointer, setWrongPointer] = useState([]);
+
+	const [wordPointer, setWordPointer] = useState(0);
+	// متغير لتخزين الوقت
 	const [time, setTime] = useState(0);
-	const [start, setStart] = useState(false);
+
+	// متغير لتحديد ما اذا كانت تم بدء الكتابه ام لا
 	const [startText, setStartText] = useState(false);
+
+	// متغير لبدء الوقت و الايقاف
+	const [start, setStart] = useState(false);
+
+	// متغير لتخزين قيمة معدل الكتابة في الدقيقة
 	const [Wpm, setWpm] = useState(0);
-	const [step, setStep] = useState(0);
+
+	//  متغير لتحديد شكل واجة المسخدم
+	const [step, setStep] = useState(1);
+
+	// متغير لتحديد هل تم الانتهاء من الكتابه
 	const [isFinish, setFinished] = useState(false);
 
+	const [inputValue, setInputValue] = useState('');
+
+	const [totalEvent, setTotalEvent] = useState('');
+
+	// أختيار قطعه نصية عشاوئيا من الكائن
 	var randomProperty = function () {
 		var keys = Object.keys(textdata);
 		setData(textdata[keys[(keys.length * Math.random()) << 0]]);
 	};
 
+	// يتم استدعاء الداله السابقه في كل مره يحدث تغير في المتغير داتا
 	useEffect(() => {
-		randomProperty(textdata);
+		// randomProperty(textdata);
 	}, [data]);
+
+	// مؤقت يعمل في كل مره تتغير قيمة ستارت الى ترو
 	useEffect(() => {
 		let interval = null;
-
 		if (start) {
 			interval = setInterval(() => {
 				setTime((prevTime) => prevTime + 10);
@@ -32,35 +60,72 @@ export default function Home() {
 		return () => clearInterval(interval);
 	}, [start]);
 
+	// داله تسبقبل الحدث من الانبوت
 	const onType = (e) => {
+		setInputValue(e.target.value);
+		if (e.nativeEvent.inputType !== 'deleteContentBackward') {
+			setTotalEvent(totalEvent + e.target.value.slice(-1));
+			setCharPointer(totalEvent.length + 1);
+		}
+
+		// إذا كان الحدث هو الاول يتم بدء الؤقت
+		// في كل مره يتم كتابة حرف يزيد المشر العام ب1
 		if (startText == false) {
 			setStartText(true);
 			setStart(true);
 		}
-		if (
-			data.length === data.slice(0, rightPointer + 1).length &&
-			start == true
-		) {
-			setStartText(false);
-			setStart(false);
-			WPM();
-			setStep(3);
-			setFinished(true);
-		}
-		setCharPointer(e.target.value.length);
-		if (data.slice(0, charPointer + 1) === e.target.value) {
-			setRightPointer(e.target.value.length);
-		}
-	};
-	const onDelete = (e) => {
-		if (e.key === 'Backspace' && e.target.value.length !== 0) {
-			setCharPointer(e.target.value.length - 1);
 
+		// في كل مره يكون الحرف المدخل مطابق لحرف المؤشر العام نزيد مؤشر الحروف الصحيحه ب1
+		if (
+			data.slice(0, charPointer + 1) ===
+			totalEvent + e.target.value.slice(-1)
+		) {
+			console.log(totalEvent);
+			setRightPointer(totalEvent.length + 1);
+			if (e.target.value.slice(-1) === ' ') {
+				setWordPointer(wordPointer + 1);
+				setInputValue(' ');
+			}
+			// console.log(rightPointer + 1, data.length);
+			if (rightPointer + 1 === data.length) {
+				setStartText(false);
+				setStart(false);
+				WPM();
+				setStep(3);
+				setFinished(true);
+			}
+		} else if (e.nativeEvent.inputType !== 'deleteContentBackward') {
+			setWrongPointer([...wrongPointer, data[charPointer]]);
+		}
+		console.log('e.length: ' + e.target.value.length);
+	};
+	// console.log(data.split(' ')[wordPointer]);
+	console.log(
+		'totalEvent: ' + totalEvent,
+		'totalEventLength: ' + totalEvent.length,
+		'dataSlice: ' + data.slice(0, charPointer),
+		'dataRight: ' + data.slice(0, rightPointer),
+		'currentWord: ' + data.split(' ')[wordPointer],
+		'dataLenght: ' + data.slice(0, charPointer).length,
+		'RP: ' + rightPointer,
+		'CP: ' + charPointer
+	);
+	// داله تسبقبل الحدث من الانبوت
+	const onDelete = (e) => {
+		// اذا كان الحدث هو زر المسح يتم التحقق ان الانبوت غير فاضي
+		if (e.key === 'Backspace' && e.target.value.length !== 0) {
+			// في هذه الحاله ينقص المرؤشر العام ب1
+			setTotalEvent(totalEvent.slice(0, -1));
+			setCharPointer(totalEvent.length - 1);
+			// في حاله انه المؤشر العام و مؤشر الحروف الصحيحه متساويان يتم تنقيص مؤشر الحروف الصحيحه ايضا
 			if (charPointer == rightPointer) {
 				setRightPointer(rightPointer - 1);
 			}
 		}
 	};
+
+	// تم استعمال المعادلة التاليه من الموقع التالي
+	// https://www.speedtypingonline.com/typing-equations
 	const WPM = () => {
 		var wpm = 0;
 		var sec = Math.floor((time / 1000) % 60);
@@ -92,12 +157,6 @@ export default function Home() {
 						</>
 					) : (
 						<>
-							{/* <div className="text-left text-2xl font-bold text-gray-400 font-inter"> */}
-							{/* <span>
-									{('0' + Math.floor((time / 60000) % 60)).slice(-2)}:
-								</span>
-								<span>{('0' + Math.floor((time / 1000) % 60)).slice(-2)}</span>
-							</div> */}
 							<span className="text-left text-2xl font-bold text-gray-600 font-inter">
 								{data.split('').map((i, x) => {
 									if (x < charPointer) {
@@ -119,10 +178,10 @@ export default function Home() {
 									}
 								})}
 							</span>
-
 							{!isFinish ? (
 								<div className="w-full ">
 									<input
+										value={inputValue}
 										placeholder="Go"
 										onChange={onType}
 										ref={(input) => input && input.focus()}
@@ -150,6 +209,8 @@ export default function Home() {
 												setCharPointer(0);
 												setRightPointer(0);
 												setStep(1);
+												wordPointer(0);
+												wrongPointer(0);
 												setFinished(false);
 											}}
 										>
@@ -163,6 +224,8 @@ export default function Home() {
 												setCharPointer(0);
 												setRightPointer(0);
 												setStep(1);
+												wordPointer(0);
+												wrongPointer(0);
 												setFinished(false);
 												setData('');
 											}}
@@ -178,4 +241,15 @@ export default function Home() {
 			</main>
 		</div>
 	);
+}
+
+{
+	/* <div className="text-left text-2xl font-bold text-gray-400 font-inter"> */
+}
+{
+	/* <span>
+									{('0' + Math.floor((time / 60000) % 60)).slice(-2)}:
+								</span>
+								<span>{('0' + Math.floor((time / 1000) % 60)).slice(-2)}</span>
+							</div> */
 }
