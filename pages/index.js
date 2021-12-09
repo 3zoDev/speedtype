@@ -170,7 +170,7 @@ export default function Home() {
 			<main className="h-screen w-full text-center  col-start-2 col-span-10 ">
 				<nav className="grid grid-cols-11">
 					<div className=" space-x-10 col-start-1 flex flex-row items-center font-semibold">
-						<span className="font-cairo	">عربي</span>
+						<span className="font-cairo">عربي</span>
 					</div>
 					<span className=" text-4xl font-bold font-houseslant text-gray-700 col-start-5 col-span-3">
 						Speed Type
