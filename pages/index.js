@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import textdata from '../LocalData/data';
 export default function Home() {
 	// متغير لتخزين القطع النصيه
-	const [data, setData] = useState('');
+	const [data, setData] = useState(
+		'Be the change that you wish to see in the world.'
+	);
 
 	// مؤشر عام لمتابعه عدد المدخلات ومقارنتها بالحرف المقابل في القطعه النصيه
 	const [charPointer, setCharPointer] = useState(0);
@@ -12,6 +14,8 @@ export default function Home() {
 
 	// مصفوفه لجمع الحروف الخاطئه
 	const [wrongChar, setWrongChar] = useState([]);
+
+	const [wrongWord, setWrongWord] = useState([]);
 
 	const [wordPointer, setWordPointer] = useState(0);
 	// متغير لتخزين الوقت
@@ -36,6 +40,8 @@ export default function Home() {
 
 	const [totalEvent, setTotalEvent] = useState('');
 
+	const [accuracy, setAccuracy] = useState(0);
+
 	// أختيار قطعه نصية عشاوئيا من الكائن
 	var randomProperty = function () {
 		var keys = Object.keys(textdata);
@@ -44,7 +50,7 @@ export default function Home() {
 
 	// يتم استدعاء الداله السابقه في كل مره يحدث تغير في المتغير داتا
 	useEffect(() => {
-		randomProperty(textdata);
+		// randomProperty(textdata);
 	}, [data]);
 
 	// مؤقت يعمل في كل مره تتغير قيمة ستارت الى ترو
@@ -80,7 +86,6 @@ export default function Home() {
 			data.slice(0, charPointer + 1) ===
 			totalEvent + e.target.value.slice(-1)
 		) {
-			console.log(totalEvent);
 			setRightPointer(totalEvent.length + 1);
 			if (e.target.value.slice(-1) === ' ') {
 				setWordPointer(wordPointer + 1);
@@ -96,9 +101,12 @@ export default function Home() {
 			}
 		} else if (e.nativeEvent.inputType !== 'deleteContentBackward') {
 			setWrongChar([...wrongChar, data[charPointer]]);
+			if (!wrongWord.includes(data.split(' ')[wordPointer])) {
+				setWrongWord([...wrongWord, data.split(' ')[wordPointer]]);
+			}
 		}
-		console.log('e.length: ' + e.target.value.length);
 	};
+
 	// console.log(
 	// 	'totalEvent: ' + totalEvent,
 	// 	'totalEventLength: ' + totalEvent.length,
@@ -124,7 +132,6 @@ export default function Home() {
 		}
 	};
 	const ResetText = (x) => {
-		console.log(x);
 		setCharPointer(0);
 		setRightPointer(0);
 		setWrongChar([]);
@@ -142,15 +149,20 @@ export default function Home() {
 	};
 
 	// تم استعمال المعادلة التاليه من الموقع التالي
-	// https://www.speedtypingonline.com/typing-equations
+	// https://indiatyping.com/index.php/typing-tips/typing-speed-calculation-formula
 	const WPM = () => {
-		var wpm = 0;
+		var Accuracy = 0;
+		var GrossWPM = 0;
+		var NetWPM = 0;
 		var sec = Math.floor((time / 1000) % 60);
 		var min = Math.floor((time / 60000) % 60);
 		var now = (min * 60 + sec) / 60;
-		wpm = data.length / 5;
-		wpm = wpm / now;
-		setWpm(Math.round(wpm));
+		GrossWPM = data.length / 5;
+		GrossWPM = GrossWPM / now;
+		NetWPM = GrossWPM - wrongWord.length / now;
+		Accuracy = (NetWPM / GrossWPM) * 100;
+		setWpm(Math.round(NetWPM));
+		setAccuracy(Math.round(Accuracy));
 	};
 
 	return (
@@ -211,6 +223,9 @@ export default function Home() {
 									<div className="flex flex-row space-x-20">
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
 											You'r WPM: {Wpm}
+										</span>
+										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
+											You'r Accuracy: {accuracy}
 										</span>
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
 											Time: {Math.floor((time / 60000) % 60)}:
