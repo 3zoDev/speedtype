@@ -31,7 +31,7 @@ export default function Home() {
 	const [Wpm, setWpm] = useState(0);
 
 	//  متغير لتحديد شكل واجة المسخدم
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(0);
 
 	// متغير لتحديد هل تم الانتهاء من الكتابه
 	const [isFinish, setFinished] = useState(false);
@@ -166,26 +166,41 @@ export default function Home() {
 	};
 
 	return (
-		<div className="flex flex-col items-center h-screen py-2 bg-gray-100">
-			<main className="h-full items-center justify-center w-full text-center flex flex-col ">
-				<span className="p-4 text-6xl font-bold font-houseslant text-gray-700">
-					Speed Type
-				</span>
-				<div className="flex flex-col justify-center items-center max-w-screen-lg h-full space-y-20 p-x-4">
+		<div className=" items-center h-screen  bg-gray-100  grid grid-cols-12 max-w-screen gap-4">
+			<main className="h-screen w-full text-center  col-start-2 col-span-10 ">
+				<nav className="grid grid-cols-11">
+					<div className=" space-x-10 col-start-1 flex flex-row items-center font-semibold">
+						<span className="font-cairo	">عربي</span>
+					</div>
+					<span className=" text-4xl font-bold font-houseslant text-gray-700 col-start-5 col-span-3">
+						Speed Type
+					</span>
+					<div className="space-x-10 col-start-11 flex flex-row items-center font-semibold">
+						<span>Login</span>
+						<span>Register</span>
+					</div>
+				</nav>
+				<div className="grid grid-cols-11 h-full w-full gap-4 items-center">
 					{step == 0 ? (
 						<>
-							<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-								Start Tisting you’r self and improve you’r typing skils.
-							</span>
-							<button
-								className="block uppercase mx-auto shadow bg-red-400  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-inter"
-								onClick={() => setStep(1)}
-							>
-								Start
-							</button>
+							<div className="col-start-2 col-span-9 space-y-20">
+								<span className="text-left text-2xl font-bold text-gray-600 font-inter ">
+									Start testing yourself and{' '}
+									<span className="bg-gray-200 border-b-2 border-green-400">
+										improve
+									</span>{' '}
+									you'r typing skils.
+								</span>
+								<button
+									className="block uppercase mx-auto shadow bg-red-400  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-inter"
+									onClick={() => setStep(1)}
+								>
+									Start
+								</button>
+							</div>
 						</>
 					) : (
-						<>
+						<div className="col-start-2 col-span-9 space-y-20 w-full">
 							<span className="text-left text-2xl font-bold text-gray-600 font-inter">
 								{data.split('').map((i, x) => {
 									if (x < charPointer) {
@@ -208,33 +223,33 @@ export default function Home() {
 								})}
 							</span>
 							{!isFinish ? (
-								<div className="w-full ">
+								<div className="w-full flex justify-center items-center">
 									<input
 										value={inputValue}
 										placeholder="Go"
 										onChange={onType}
 										ref={(input) => input && input.focus()}
 										onKeyDown={onDelete}
-										className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 w-full"
+										className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 w-1/2"
 									/>
 								</div>
 							) : (
-								<div className="flex flex-col space-y-20">
+								<div className="flex flex-col space-y-32 w-full justify-start items-center">
 									<div className="flex flex-row space-x-20">
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
 											You'r WPM: {Wpm}
 										</span>
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-											You'r Accuracy: {accuracy}
+											You'r Accuracy: %{accuracy}
 										</span>
 										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
 											Time: {Math.floor((time / 60000) % 60)}:
 											{Math.floor((time / 1000) % 60)}
 										</span>
 									</div>
-									<div className="flex flex-row  mx-auto">
+									<div className="flex flex-row mx-auto space-x-32">
 										<button
-											className="block uppercase  shadow bg-red-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tl rounded-bl font-bold"
+											className="block uppercase  shadow bg-red-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-bold w-32"
 											onClick={() => {
 												ResetText();
 											}}
@@ -242,7 +257,7 @@ export default function Home() {
 											Repeat
 										</button>
 										<button
-											className="block uppercase  shadow bg-green-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded-tr rounded-br font-bold"
+											className="block uppercase  shadow bg-green-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-bold  w-32"
 											onClick={() => {
 												ResetText('new');
 											}}
@@ -252,7 +267,7 @@ export default function Home() {
 									</div>
 								</div>
 							)}
-						</>
+						</div>
 					)}
 				</div>
 			</main>
