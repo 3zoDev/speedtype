@@ -177,8 +177,8 @@ export default function Home() {
 							<a className="font-cairo">عربي</a>
 						</Link>
 					</div>
-					<span className=" text-4xl font-bold font-houseslant text-gray-700 col-start-5 col-span-3">
-						Speed Type
+					<span className=" uppercase text-4xl font-bold font-houseslant text-gray-700 col-start-5 col-span-3">
+						speed Writer
 					</span>
 					<div className="space-x-10 col-start-11 flex flex-row items-center font-semibold">
 						<a>Login</a>

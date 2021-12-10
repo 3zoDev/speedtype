@@ -181,7 +181,7 @@ export default function Home() {
 						</span>
 					</div>
 					<span className=" text-4xl font-bold font-lalezar text-gray-700 col-start-5 col-span-3">
-						تايب سبيد
+						سبيد رايتر
 					</span>
 					<Link href="/">
 						<a className="space-x-10 col-start-11 flex flex-row items-center font-semibold">
