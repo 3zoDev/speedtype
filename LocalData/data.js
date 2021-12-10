@@ -20,7 +20,7 @@ const data = {
 	'J.K. Rowling, Harry Potter and the Goblet of Fire':
 		"If you want to know what a man's like, take a good look at how he treats his inferiors, not his equals.",
 	'Albert Camus':
-		"Don't walk in front of me... I may not follow Don't walk behind me… I may not lead Walk beside me... just be my friend.",
+		"Don't walk in front of me... I may not follow Don't walk behind... I may not lead Walk beside me... just be my friend.",
 	'Mark Twain': "If you tell the truth, you don't have to remember anything.",
 	'C.S. Lewis, The Four Loves':
 		'Friendship... is born at the moment when one man says to another "What! You too? I thought that no one but myself...',
@@ -47,7 +47,7 @@ const data = {
 	5: "You may think that I'm a dreamer But I'm not the only one I hope someday you'll join us And the world will live as one",
 	6: "As I walk through the valley of the shadow of death I take a look at my life and realize there's not much left...",
 	7: "Please allow me to introduce myself I'm a man of wealth and taste I've been around for a long, long year Stole many a man's soul and faith...",
-	8: 'We come from the land of the ice and snow / From the midnight sun, where the hot springs flow...',
+	8: 'We come from the land of the ice and snow. From the midnight sun, where the hot springs flow...',
 	'Steve Jobs':
 		"Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.",
 	'Oprah Winfrey':

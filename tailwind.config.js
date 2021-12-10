@@ -4,6 +4,7 @@ module.exports = {
 	darkMode: true, // or 'media' or 'class'
 	theme: {
 		fontFamily: {
+			lalezar: ['Lalezar'],
 			cairo: ['Cairo'],
 			houseslant: ['House Slant'],
 			inter: ['Inter'],

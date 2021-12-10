@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import textdata from '../LocalData/data';
 import Link from 'next/link';
-
+import textdata from '../LocalData/data_ar';
 export default function Home() {
 	// متغير لتخزين القطع النصيه
-	const [data, setData] = useState('');
+	const [data, setData] = useState(
+		'قسوة القلب من أربعة أشياء إذا جاوزت قد الحاجة: الأكل، والنوم، والكلام، والمخالطة .'
+	);
 
 	// مؤشر عام لمتابعه عدد المدخلات ومقارنتها بالحرف المقابل في القطعه النصيه
 	const [charPointer, setCharPointer] = useState(0);
@@ -44,8 +45,9 @@ export default function Home() {
 
 	// أختيار قطعه نصية عشاوئيا من الكائن
 	var randomProperty = async function () {
-		var keys = await Object.keys(textdata);
-		setData(textdata[keys[(keys.length * Math.random()) << 0]]);
+		var keys = Object.keys(textdata);
+		keys = await textdata[keys[(keys.length * Math.random()) << 0]];
+		setData(keys);
 	};
 
 	// يتم استدعاء الداله السابقه في كل مره يحدث تغير في المتغير داتا
@@ -107,16 +109,17 @@ export default function Home() {
 		}
 	};
 
-	// console.log(
-	// 	'totalEvent: ' + totalEvent,
-	// 	'totalEventLength: ' + totalEvent.length,
-	// 	'dataSlice: ' + data.slice(0, charPointer),
-	// 	'dataRight: ' + data.slice(0, rightPointer),
-	// 	'currentWord: ' + data.split(' ')[wordPointer],
-	// 	'dataLenght: ' + data.slice(0, charPointer).length,
-	// 	'RP: ' + rightPointer,
-	// 	'CP: ' + charPointer
-	// );
+	// console.log(wrongWord);
+	console.log(
+		'totalEvent: ' + totalEvent,
+		'totalEventLength: ' + totalEvent.length,
+		'dataSlice: ' + data.slice(0, charPointer),
+		'dataRight: ' + data.slice(0, rightPointer),
+		'currentWord: ' + data.split(' ')[wordPointer],
+		'dataLenght: ' + data.slice(0, charPointer).length,
+		'RP: ' + rightPointer,
+		'CP: ' + charPointer
+	);
 
 	// داله تسبقبل الحدث من الانبوت
 	const onDelete = (e) => {
@@ -146,7 +149,6 @@ export default function Home() {
 		setAccuracy(0);
 		if (x === 'new') {
 			randomProperty(textdata);
-
 			setData('');
 		}
 	};
@@ -173,61 +175,64 @@ export default function Home() {
 			<main className="h-screen w-full text-center  col-start-2 col-span-10 ">
 				<nav className="grid grid-cols-11 py-5">
 					<div className=" space-x-10 col-start-1 flex flex-row items-center font-semibold">
-						<Link href="/ar">
-							<a className="font-cairo">عربي</a>
-						</Link>
+						<span className="font-cairo space-x-10 col-start-11 flex flex-row items-center font-semibold">
+							<span>تسجيل</span>
+							<span>الدخول</span>
+						</span>
 					</div>
-					<span className=" text-4xl font-bold font-houseslant text-gray-700 col-start-5 col-span-3">
-						Speed Type
+					<span className=" text-4xl font-bold font-lalezar text-gray-700 col-start-5 col-span-3">
+						تايب سبيد
 					</span>
-					<div className="space-x-10 col-start-11 flex flex-row items-center font-semibold">
-						<a>Login</a>
-						<a>Register</a>
-					</div>
+					<Link href="/">
+						<a className="space-x-10 col-start-11 flex flex-row items-center font-semibold">
+							English
+						</a>
+					</Link>
 				</nav>
-				<div className="grid grid-cols-11 h-full w-full gap-4 items-center">
+				<div className="grid grid-cols-11 h-full w-full gap-4 items-center ">
 					{step == 0 ? (
 						<>
-							<div className="col-start-2 col-span-9 space-y-20">
-								<span className="text-left text-2xl font-bold text-gray-600 font-inter ">
-									Start testing yourself and{' '}
+							<div className="col-start-2 col-span-9 space-y-20 rtl font-cairos">
+								<span className="text-left text-2xl font-bold text-gray-600  ">
+									اختبر نفسك و{' '}
 									<span className="bg-gray-200 underline decoration-lime-400">
-										improve
+										طور
 									</span>{' '}
-									you'r typing skils.
+									مهاراتك في الكتابة.
 								</span>
 								<button
-									className="block uppercase mx-auto shadow bg-red-400  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-inter"
+									className="block uppercase mx-auto shadow bg-red-400  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-cairo"
 									onClick={() => setStep(1)}
 								>
-									Start
+									العب
 								</button>
 							</div>
 						</>
 					) : (
-						<div className="col-start-2 col-span-9 space-y-20 w-full leading-10">
+						<div className="col-start-2 col-span-9 space-y-20 w-full   rtl leading-10 ">
 							{!isFinish ? (
 								<button
-									className="block uppercase font-cairo focus:shadow-outline focus:outline-none text-green-600 text-xs py-3  rounded font-bold  w-32"
+									className="block uppercase    font-cairo  focus:shadow-outline focus:outline-none text-green-600 text-xs py-3 px-10 rounded font-bold  w-32"
 									onClick={() => {
 										ResetText('new');
 									}}
 								>
-									Change
+									تغيير
 								</button>
 							) : null}
-							<span className="text-2xl font-bold text-gray-600 font-inter">
+
+							<span className="text-2xl font-bold text-gray-600  font-cairo ">
 								{data.split('').map((i, x) => {
 									if (x < charPointer) {
 										if (x < rightPointer) {
 											return (
-												<span className="text-gr een-400 bg-gray-200 underline decoration-lime-400">
+												<span className="text-gr een-400 bg-gray-200 border-b-2 border-lime-400">
 													{i}
 												</span>
 											);
 										} else {
 											return (
-												<span className="text-red-400 bg-gray-200 underline decoration-red-400">
+												<span className="text-red-400 bg-gray-200  border-b-2 border-red-400">
 													{i}
 												</span>
 											);
@@ -238,7 +243,7 @@ export default function Home() {
 								})}
 							</span>
 							{!isFinish ? (
-								<div className="w-full flex justify-center items-center">
+								<div className="w-full  justify-center items-center">
 									<input
 										value={inputValue}
 										placeholder="Go"
@@ -249,35 +254,47 @@ export default function Home() {
 									/>
 								</div>
 							) : (
-								<div className="flex flex-col space-y-32 w-full justify-start items-center">
-									<div className="flex flex-row space-x-20">
-										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-											WPM: {Wpm}
-										</span>
-										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-											Accuracy: %{accuracy}
-										</span>
-										<span className="text-left text-2xl font-bold text-gray-600 font-inter">
-											Time: {Math.floor((time / 60000) % 60)}:
-											{Math.floor((time / 1000) % 60)}
-										</span>
+								<div className="flex flex-col space-y-32 w-full">
+									<div className="flex flex-row gap-4 w-full  justify-center relative">
+										<div className="bg-slate-300 w-44 h-44 mt-5 rounded-md shadow-md flex flex-col space-y-4 justify-center text-2xl font-bold text-gray-600 font-cairo">
+											<span className="flex flex-col justify-center items-center  ">
+												الدقة
+											</span>
+											<span>%{accuracy}</span>
+										</div>
+										<div className="bg-slate-300 w-44 h-44 rounded-md shadow-md space-y-4 flex flex-col justify-center text-xl font-bold text-gray-600 font-cairo">
+											{' '}
+											<span className="flex flex-col justify-center items-center   ">
+												كلمة في الدقيقة
+											</span>
+											<span>{Wpm}</span>
+										</div>
+										<div className="bg-slate-300 w-44 h-44 mt-5 rounded-md shadow-md flex flex-col space-y-4 justify-center text-2xl font-bold text-gray-600 font-cairo">
+											<span className="flex flex-col justify-center items-center  ">
+												الوقت
+											</span>
+											<span>
+												{Math.floor((time / 60000) % 60)}:
+												{Math.floor((time / 1000) % 60)}
+											</span>
+										</div>
 									</div>
-									<div className="flex flex-row mx-auto space-x-32">
+									<div className="flex flex-row mx-auto  w-full justify-center gap-10">
 										<button
-											className="block uppercase  shadow bg-red-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-bold w-32"
+											className="block uppercase  shadow bg-red-300 font-cairo  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-bold w-32"
 											onClick={() => {
 												ResetText();
 											}}
 										>
-											Repeat
+											إعادة
 										</button>
 										<button
-											className="block uppercase  shadow bg-green-400 font-inter  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-bold  w-32"
+											className="block uppercase  shadow bg-green-300 font-cairo  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-bold  w-32"
 											onClick={() => {
 												ResetText('new');
 											}}
 										>
-											New
+											جديد
 										</button>
 									</div>
 								</div>
