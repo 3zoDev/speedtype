@@ -194,7 +194,7 @@ export default function Home() {
 									<span className="bg-gray-200 underline decoration-lime-400">
 										improve
 									</span>{' '}
-									you'r typing skils.
+									your typing skils.
 								</span>
 								<button
 									className="block uppercase mx-auto shadow bg-red-400  focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded font-inter"
