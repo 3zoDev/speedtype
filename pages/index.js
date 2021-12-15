@@ -110,18 +110,20 @@ export default function Home() {
 		setCharPointer(0);
 		setRightPointer(0);
 		setWrongChar([]);
-		setTime(0);
-		setStart(false);
-		setStartText(false);
-		setWpm(0);
+		setWrongWord([]);
 		setWordPointer(0);
+		setTime(0);
+		setStartText(false);
+		setStart(false);
+		setWpm(0);
+		setFinished(false);
 		setInputValue('');
 		setTotalEvent('');
-		setFinished(false);
 		setAccuracy(0);
+		setAllTypedEntries(0);
 		if (x === 'new') {
-			randomProperty(textdata);
 			setData('');
+			randomProperty(textdata);
 		}
 	};
 
@@ -142,25 +144,24 @@ export default function Home() {
 		console.log(GrossWPM, NetWPM, Accuracy);
 	};
 
-
 	return (
-		<div className=" items-center h-screen  bg-gray-100  grid grid-cols-12 max-w-screen gap-4">
-			<main className="h-screen w-full text-center  col-start-2 col-span-10 ">
-				<nav className="grid grid-cols-11 py-5">
-					<div className=" space-x-10 col-start-1 flex flex-row items-center font-semibold">
+		<div className=" h-screen  bg-gray-100  grid grid-cols-12 max-w-screen gap-4">
+			<main className="  w-full text-center  col-start-2 col-span-10 ">
+				<nav className="md:grid grid-cols-11 py-5 ">
+					<div className="md:flex  hidden space-x-10 col-start-1  flex-row items-center font-semibold ">
 						<Link href="/ar">
 							<a className="font-cairo">عربي</a>
 						</Link>
 					</div>
-					<span className=" uppercase text-4xl font-bold font-houseslant text-gray-700 col-start-5 col-span-3">
+					<span className="col-start-1 uppercase text-4xl font-bold font-houseslant text-gray-700 md:col-start-5 col-span-3 inline">
 						speed Writer
 					</span>
-					<div className="space-x-10 col-start-11 flex flex-row items-center font-semibold">
+					<div className="space-x-10 col-start-11 md:flex flex-row items-center font-semibold hidden">
 						<a>Login</a>
 						<a>Register</a>
 					</div>
 				</nav>
-				<div className="grid grid-cols-11 h-full w-full gap-4 mt-40">
+				<div className="grid grid-cols-11 gap-4 w-full h-auto mt-56">
 					{step == 0 ? (
 						<>
 							<div className="col-start-2 col-span-9 space-y-20">
@@ -193,9 +194,6 @@ export default function Home() {
 									</button>
 								) : null}
 
-								<span className="text-left text-lg font-bold  text-gray-500 font-cairo">
-									{Wpm}
-								</span>
 								<span className="flex flex-col justify-center items-center text-left text-lg font-bold  text-gray-500 font-cairo">
 									<span>
 										{Math.floor((time / 60000) % 60)}:
@@ -277,15 +275,4 @@ export default function Home() {
 			</main>
 		</div>
 	);
-}
-
-{
-	/* <div className="text-left text-2xl font-bold text-gray-400 font-inter"> */
-}
-{
-	/* <span>
-									{('0' + Math.floor((time / 60000) % 60)).slice(-2)}:
-								</span>
-								<span>{('0' + Math.floor((time / 1000) % 60)).slice(-2)}</span>
-							</div> */
 }
