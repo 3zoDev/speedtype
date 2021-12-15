@@ -69,7 +69,7 @@ export default function Home() {
 			if (rightPointer + 1 === data.length) {
 				setStartText(false);
 				setStart(false);
-				// WPM();
+				WPM();
 
 				setStep(3);
 				setFinished(true);
@@ -141,9 +141,7 @@ export default function Home() {
 		setAccuracy(Math.round(Accuracy));
 		console.log(GrossWPM, NetWPM, Accuracy);
 	};
-	useEffect(() => {
-		WPM();
-	});
+
 
 	return (
 		<div className=" items-center h-screen  bg-gray-100  grid grid-cols-12 max-w-screen gap-4">
