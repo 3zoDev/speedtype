@@ -19,7 +19,7 @@ export default function Home() {
 	const [totalEvent, setTotalEvent] = useState('');
 	const [accuracy, setAccuracy] = useState(0);
 	const [allTypedEntries, setAllTypedEntries] = useState(0);
-
+	const [isWrong, setWrong] = useState(false);
 	var randomProperty = async function () {
 		var keys = await Object.keys(textdata);
 		setData(textdata[keys[(keys.length * Math.random()) << 0]]);
@@ -61,20 +61,22 @@ export default function Home() {
 			totalEvent + e.target.value.slice(-1)
 		) {
 			setRightPointer(totalEvent.length + 1);
+			setWrong(false);
+
 			if (e.target.value.slice(-1) === ' ') {
 				setWordPointer(wordPointer + 1);
 				setInputValue(' ');
 			}
-			// console.log(rightPointer + 1, data.length);
 			if (rightPointer + 1 === data.length) {
 				setStartText(false);
 				setStart(false);
 				WPM();
-
 				setStep(3);
 				setFinished(true);
 			}
 		} else if (e.nativeEvent.inputType !== 'deleteContentBackward') {
+			console.log('it is wrong');
+			setWrong(true);
 			setWrongChar([...wrongChar, data[charPointer]]);
 			if (!wrongWord.includes(data.split(' ')[wordPointer])) {
 				setWrongWord([...wrongWord, data.split(' ')[wordPointer]]);
@@ -82,7 +84,8 @@ export default function Home() {
 		}
 	};
 
-	console.log(
+	console
+		.log
 		// 'totalEvent: ' + totalEvent,
 		// 'totalEventLength: ' + totalEvent.length,
 		// 'dataSlice: ' + data.slice(0, charPointer),
@@ -94,8 +97,9 @@ export default function Home() {
 		// 'WPM: ' + Wpm,
 		// 'accurcy: ' + accuracy
 		// 'allTypedEntries:' + allTypedEntries
-		'NatWPM: ' + Wpm
-	);
+		// 'NatWPM: ' + Wpm
+		// 'isWrong: ' + isWrong
+		();
 
 	const onDelete = (e) => {
 		if (e.key === 'Backspace' && e.target.value.length !== 0) {
@@ -181,33 +185,34 @@ export default function Home() {
 							</div>
 						</>
 					) : (
-						<div className="col-start-2 col-span-9 space-y-10 w-full leading-10 h-auto">
+						<div className="col-start-1 col-span-11 space-y-10  w-full leading-10 h-auto pb-36">
 							<div className="flex flex-row justify-between">
 								{!isFinish ? (
-									<button
-										className="block uppercase font-cairo focus:shadow-outline focus:outline-none text-green-600 text-xs py-3  rounded font-bold"
-										onClick={() => {
-											ResetText('new');
-										}}
-									>
-										Change
-									</button>
+									<>
+										<button
+											className="block uppercase font-cairo focus:shadow-outline focus:outline-none text-green-600 text-xs py-3  rounded font-bold"
+											onClick={() => {
+												ResetText('new');
+											}}
+										>
+											Change
+										</button>
+										<span className="flex flex-col justify-center items-center text-left text-lg font-bold  text-gray-500 font-cairo">
+											<span>
+												{Math.floor((time / 60000) % 60)}:
+												{Math.floor((time / 1000) % 60)}
+											</span>
+										</span>
+									</>
 								) : null}
-
-								<span className="flex flex-col justify-center items-center text-left text-lg font-bold  text-gray-500 font-cairo">
-									<span>
-										{Math.floor((time / 60000) % 60)}:
-										{Math.floor((time / 1000) % 60)}
-									</span>
-								</span>
 							</div>
-							<div className="w-full h-auto text-left">
+							<div className="w-full h-auto text-left ">
 								<span className="text-2xl font-bold text-gray-600 font-inter">
 									{data.split('').map((i, x) => {
 										if (x < charPointer) {
 											if (x < rightPointer) {
 												return (
-													<span className="bg-gray-200 underline decoration-lime-400">
+													<span className="bg-gray-200 underline decoration-lime-400 ">
 														{i}
 													</span>
 												);
@@ -232,7 +237,11 @@ export default function Home() {
 										onChange={onType}
 										ref={(input) => input && input.focus()}
 										onKeyDown={onDelete}
-										className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 w-1/2"
+										className={`px-4 py-2 rounded-lg border border-gray-300 ${
+											isWrong
+												? 'border-red-300 focus:ring-red-300'
+												: 'border-green-300 focus:ring-green-300'
+										} focus:outline-none focus:ring-2  w-1/2`}
 									/>
 								</div>
 							) : (
