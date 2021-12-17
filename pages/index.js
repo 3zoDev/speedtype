@@ -65,7 +65,7 @@ export default function Home() {
 
 			if (e.target.value.slice(-1) === ' ') {
 				setWordPointer(wordPointer + 1);
-				setInputValue(' ');
+				setInputValue('');
 			}
 			if (rightPointer + 1 === data.length) {
 				setStartText(false);
